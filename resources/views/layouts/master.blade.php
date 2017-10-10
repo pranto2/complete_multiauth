@@ -124,9 +124,8 @@
                                                      document.getElementById('logout-form').submit();" class="dropdown-toggle">
                                  <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                             {{ csrf_field() }}
-                                            <i class="icon-logout"></i>
-                                        </form>                    
-                                
+                                     <i class="icon-logout"></i>
+                                 </form>
                             </a>
                         </li>
                         <!-- END QUICK SIDEBAR TOGGLER -->
@@ -162,7 +161,7 @@
                             <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
                             <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
                             <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
-                            <form class="sidebar-search  sidebar-search-bordered" action="page_general_search_3.html" method="POST">
+                            <form class="sidebar-search  sidebar-search-bordered" action="" method="">
                                 <a href="javascript:;" class="remove">
                                     <i class="icon-close"></i>
                                 </a>
@@ -177,14 +176,18 @@
                             </form>
                             <!-- END RESPONSIVE QUICK SEARCH FORM -->
                         </li>
-                            <li class="nav-item start ">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                    <i class="icon-home"></i>
-                                    <span class="title">Dashboard</span>
-                                    <span class="arrow"></span>
-                                </a>
-                            </li>
-                            </ul>
+                        <li class="nav-item start ">
+                            <a href="{{url('admin/home')}}" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Dashboard</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="{{route('advertisement')}}" class="nav-link nav-toggle">
+                                <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                <span class="title">Advertisement</span>
+                            </a>
                         </li>
                     </ul>
                     <!-- END SIDEBAR MENU -->
@@ -196,7 +199,7 @@
             <!-- BEGIN CONTENT -->
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
-                <div class="page-content">
+                <div class="page-content" style="min-height:1365px">
                     <!-- BEGIN PAGE HEADER-->
                     <!-- BEGIN PAGE BAR -->
                     <div class="page-bar">
@@ -209,17 +212,11 @@
                                 <span>Dash Board</span>
                             </li>
                         </ul>
-                        
+                        <!-- Eikhane ja khusii likho -->
+                        @yield('content')
                     </div>
                     <!-- END PAGE BAR -->
-                    <!-- BEGIN PAGE TITLE-->
-                    {{--<h3 class="page-title"> Blank Page Layout--}}
-                        {{--<small>blank page layout</small>--}}
-                    {{--</h3>--}}
-                    <!-- END PAGE TITLE-->
                     <!-- END PAGE HEADER-->
-                   <!-- Eikhane ja khusii likho -->
-                     @yield('content')
                 </div>
                 <!-- END CONTENT BODY -->
             </div>
@@ -228,11 +225,7 @@
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
         <div class="page-footer">
-            <div class="page-footer-inner"> 2017 &copy; Product by THESOFTKING.
-            </div>
-            <div class="scroll-to-top">
-                <i class="icon-arrow-up"></i>
-            </div>
+            <div class="page-footer-inner"> 2017 &copy; Product by THESOFTKING.</div>
         </div>
         <!-- BEGIN CORE PLUGINS -->
         <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
@@ -252,6 +245,9 @@
         <script src="../assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
         <script src="../assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
+        {{--Editor --}}
+        <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+        <script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
         @yield('scripts')
     </body>
 

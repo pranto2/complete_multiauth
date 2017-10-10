@@ -28,3 +28,15 @@ Route::POST ('admin-password/email', 'Admin\ForgotPasswordController@sendResetLi
 Route::GET('admin-password/reset', 'Admin\ForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
 Route::POST('admin-password/reset' , 'Admin\ResetPasswordController@reset');
 Route::GET('admin-password/reset/{token}', 'Admin\ResetPasswordController@showResetForm')->name('admin.password.reset ');
+
+Route::POST('admin/blogpost' , 'PostController@store');
+Route::GET('admin/home' , 'PostController@index');
+Route::get('/edit/{id}', 'PostController@edit');
+Route::post('/update/{id}', 'PostController@update');
+Route::get('/delete/{id}', 'PostController@destroy');
+
+Route::get('admin/advertisement', 'AddController@index')->name('advertisement');
+Route::POST('admin/advertisement/post' , 'AddController@store')->name('addpost');
+Route::get('advertisement/edit/{id}', 'AddController@edit');
+Route::post('advertisement/update/{id}', 'AddController@update');
+Route::get('advertisement/delete/{id}', 'AddController@destroy');
