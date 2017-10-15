@@ -42,4 +42,9 @@ class AddController extends Controller
         Session::flash('message', 'Advertise Uploaded');
         return redirect('admin/advertisement');
     }
+
+    public function show()
+    {
+        return view('admin.web.show-add');
+    }
 }

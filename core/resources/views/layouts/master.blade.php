@@ -45,6 +45,9 @@
     <link href="{{asset('assets/layouts/layout/css/layout.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/layouts/layout/css/themes/darkblue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
     <link href="{{asset('assets/layouts/layout/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
+
+    {{--font awesome--}}
+
     <!-- END THEME LAYOUT STYLES -->
     <link rel="shortcut icon" href="favicon.ico" />
     @yield('head')
@@ -196,7 +199,7 @@
                     <!-- END RESPONSIVE QUICK SEARCH FORM -->
                 </li>
                 <li class="nav-item @if(request()->path() == 'admin/home') active open @endif ">
-                    <a href="{{ route('admin') }}" class="nav-link nav-toggle">
+                    <a href="{{ url('admin/home') }}" class="nav-link nav-toggle">
                         <i class="icon-home"></i>
                         <span class="title">Dashboad</span>
                         <span class="arrow"></span>
@@ -214,6 +217,7 @@
                      @elseif(request()->path() == 'admin/statistics') active open
                      @elseif(request()->path() == 'admin/testimonial') active open
                      @elseif(request()->path() == 'admin/advertisement') active open
+                     @elseif(request()->path() == 'admin/show-add') active open
                      @endif ">
                     <a href="javascript:;" class="nav-link nav-toggle">
                         <i class="icon-diamond"></i>
@@ -239,8 +243,8 @@
                                 <li class="nav-item  @if(request()->path() == 'admin/advertisement') active open @endif ">
                                     <a href="{{ route('advertisement')  }}" class="nav-link "> Post Add </a>
                                 </li>
-                                <li class="nav-item  @if(request()->path() == 'admin/show') active open @endif">
-                                    <a href="" class="nav-link "> Show Add  </a>
+                                <li class="nav-item  @if(request()->path() == 'admin/show-add') active open @endif">
+                                    <a href="{{ route('showadd') }}" class="nav-link "> Show Add  </a>
                                 </li>
                             </ul>
                         </li>
@@ -300,54 +304,21 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item @if(request()->path() == 'admin/charges') active open @endif">
-                    <a href="" class="nav-link ">
-                        <i class="fa fa-money"></i>
-                        <span class="title">Charge / Commision</span>
-                    </a>
-                </li>
-                <li class="nav-item @if(request()->path() == 'admin/gateway') active open @endif">
-                    <a href="{{url('admin/gateway')}}" class="nav-link ">
-                        <i class="fa fa-credit-card"></i>
-                        <span class="title">Payment Gateway</span>
-                    </a>
-                </li>
-                <li class="nav-item @if(request()->path() == 'admin/policy') active open @endif">
-                    <a href="{{url('admin/policy')}}" class="nav-link ">
-                        <i class="icon-layers"></i>
-                        <span class="title">Policy & Terms</span>
+                <li class="nav-item
+                     @if(request()->path() == 'admin/general') active open
+                     @endif">
+                    <a href="{{url('admin/general')}}" class="nav-link ">
+                        <i class="fa fa-cog"></i>
+                        <span class="title">General Settings</span>
                     </a>
                 </li>
                 <li class="nav-item
-                     @if(request()->path() == 'admin/gsettings') active open
-                     @elseif(request()->path() == 'admin/gsettings/email') active open
-                     @elseif(request()->path() == 'admin/gsettings/sms') active open
+                     @if(request()->path() == 'admin/seo') active open
                      @endif">
-                    <a href="javascript:;" class="nav-link nav-toggle">
-                        <i class="fa fa-cogs"></i>
-                        <span class="title">Website Control</span>
-                        <span class="arrow"></span>
+                    <a href="{{url('admin/seo')}}" class="nav-link ">
+                        <i class="fa fa-search-plus" aria-hidden="true"></i>
+                        <span class="title">SEO Settings</span>
                     </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item @if(request()->path() == 'admin/gsettings') active open @endif">
-                            <a href="{{url('admin/gsettings')}}" class="nav-link ">
-                                <i class="fa fa-cog"></i>
-                                <span class="title">General Settings</span>
-                            </a>
-                        </li>
-                        <li class="nav-item @if(request()->path() == 'admin/gsettings/email') active open @endif">
-                            <a href="{{url('admin/gsettings/email')}}" class="nav-link ">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="title">Email Settings</span>
-                            </a>
-                        </li>
-                        <li class="nav-item @if(request()->path() == 'admin/gsettings/sms') active open @endif">
-                            <a href="{{url('admin/gsettings/sms')}}" class="nav-link ">
-                                <i class="fa fa-commenting-o"></i>
-                                <span class="title">SMS Settings</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="nav-item
                      @if(request()->path() == 'admin/blog') active open
@@ -394,7 +365,7 @@
                         <i class="fa fa-circle"></i>
                     </li>
                     <li>
-                        <span>Dash Board</span>
+                        <span>Adminboard</span>
                     </li>
                 </ul>
                 <!-- Eikhane ja khusii likho -->

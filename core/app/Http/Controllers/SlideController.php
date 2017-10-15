@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Slide;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Intervention\Image\Facades\Image;
 
 class SlideController extends Controller
 {
@@ -13,7 +16,8 @@ class SlideController extends Controller
      */
     public function index()
     {
-        return view('admin.web.slide');
+        $slide = Slide::all();
+        return view('admin.web.slide', compact('slide'));
     }
 
     /**
@@ -34,7 +38,25 @@ class SlideController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, array(
+            'b_text' => 'required|max:255',
+            's_text' => 'required|max:255',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg',
+        ));
+        $slide = new Slide;
+        $slide['b_text'] = $request->b_text;
+        $slide['s_text'] = $request->s_text;
+//        image Upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = 'images/slide/'. $filename;
+            Image::make($image)->save($location);
+            $slide['image'] =  $filename;
+        };
+        $slide->save();
+        Session::flash('message', 'Successfully Added');
+        return redirect('admin/slide');
     }
 
     /**
@@ -68,7 +90,27 @@ class SlideController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $slide = Slide::find($id);
+        $this->validate($request, array(
+            'b_text' => 'required|max:255',
+            's_text' => 'required|max:255',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg',
+        ));
+
+        $slide->b_text = $request->input('b_text');
+        $slide->s_text = $request->input('s_text');
+
+        if ($request->hasFile('image')) {
+            unlink('images/slide/'. $slide->image);
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = 'images/slide/'. $filename;
+            Image::make($image)->save($location);
+            $slide['image'] =  $filename;
+        };
+        $slide->save();
+        Session::flash('message', 'Successfully Updated');
+        return redirect()->back();
     }
 
     /**
@@ -79,6 +121,10 @@ class SlideController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $slide = Slide::find($id);
+        unlink('images/slide/'. $slide->image);
+        $slide->delete();
+        Session::flash('message', 'Successfully Deleted');
+        return redirect('admin/slide');
     }
 }

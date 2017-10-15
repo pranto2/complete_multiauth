@@ -1,93 +1,40 @@
 @extends('layouts.master')
-@section('head')
-    <style>
-        .red{
-            color:red;
-        }
-        .form-area
-        {
-            background-color: #FAFAFA;
-            padding: 10px 40px 60px;
-            margin: 10px 0px 60px;
-            border: 1px solid GREY;
-        }
-    </style>
-@endsection
 @section('content')
-<br>
-<div class="col-md-12">
-    @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-    @endif
-    <div class="form-area">
-        <form method="POST" action="{{url('admin/blogpost')}}" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            <br style="clear:both">
-            <h3 style="margin-bottom: 25px; text-align: center;">Blog Form</h3>
-            @if (Session::has('message'))
-                <div class="alert alert-success">{{ Session::get('message') }}</div>
-            @endif
+    <br>
+    <div class="col-md-12">
+        @if (Session::has('message'))
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
+        @endif
+        <h3 class="sbold blog-comments-title">General Setting</h3>
+        @foreach($general as $general)
+        <form action="{{route('general.update', $general->id)}}" method="post">
+            {{csrf_field()}}
+            {{method_field('put')}}
             <div class="form-group">
-                <label for="exampleSelect1">Category select</label>
-                <select class="form-control" id="exampleSelect1" name="category">
-                    @foreach($cetagory_select as $key => $cetagory)
-                    <option value="{{ $cetagory->id }}">{{$cetagory->name}}</option>
-                    @endforeach
-                </select>
-            </div>
+                <input class="form-control c-square" type="text" value="{{$general->name}} " name="name"> </div>
             <div class="form-group">
-                <label for="exampleInputFile">Blog Image File input</label>
-                <input type="file" class="form-control-file" id="exampleInputFile" name="image" aria-describedby="fileHelp">
-                <small id="fileHelp" class="form-text text-muted">All Type Image Supported.</small>
-            </div>
+                <input  class="form-control c-square" type="text" value="{{$general->color}}" name="color"> </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="title" name="title" placeholder="Blog Title" required>
-            </div>
+                <input class="form-control c-square" type="text" value="{{$general->mobile}}" name="mobile"> </div>
             <div class="form-group">
-                <textarea class="form-control" type="textarea" name="description" id="description" placeholder="Description"></textarea>
+                <input  class="form-control c-square" type="text" value="{{$general->email}}" name="email"> </div>
+            <div class="form-group">
+                <input  class="form-control c-square" type="text" value=" {{$general->pay_email}}" name="pay_email"> </div>
+            <div class="form-group">
+                <input class="form-control c-square" type="text" value=" {{$general->footer}}" name="footer"> </div>
+            <h4>Top Text</h4>
+            <div class="form-group">
+                <textarea rows="8" name="top_text"  class="form-control c-square">{{ $general->top_text }}</textarea>
             </div>
-            <button name="submit" class="btn btn-primary pull-right">Post</button>
+            <h4>Footer Text</h4>
+            <div class="form-group">
+                <textarea rows="8" name="footer_text"  class="form-control c-square">{{ $general->footer_text}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn blue uppercase btn-md sbold btn-block">Update</button>
+            </div>
         </form>
+            @endforeach
     </div>
-        <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="portlet box green">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-globe"></i>Blog Content Chart</div>
-                <div class="tools"> </div>
-            </div>
-            <div class="portlet-body">
-                <table class="table table-striped table-bordered table-hover" id="sample_2">
-                    <thead>
-                    <tr>
-                        <th> Id </th>
-                        <th> Title</th>
-                        <th> Image </th>
-                        <th> Category </th>
-                        <th> Action </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($blog as $key => $blogs)
-                    <tr>
-                        <td> {{$key+1}} </td>
-                        <td> {{$blogs->title}} </td>
-                        <td><img src="{{asset('images/' . $blogs->image)}}" height="50px"></td>
-                        <td> {{$blogs->category}} </td>
-                        <td>
-                            <a href=" {{'blog-edit/'.$blogs->id}} ">Edit</a>
-                            <a href="{{'post-delete/' .$blogs->id}}">Delete</a>
-                        </td>
-                    </tr>
-                     @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!-- END EXAMPLE TABLE PORTLET-->
-</div>
 @endsection
-
-

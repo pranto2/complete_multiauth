@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Logo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Intervention\Image\Facades\Image;
 
 class LogoController extends Controller
 {
@@ -13,7 +16,8 @@ class LogoController extends Controller
      */
     public function index()
     {
-        return view('admin.web.logo');
+        $logos = Logo::find(1);
+        return view('admin.web.logo', compact('logos'));
     }
 
     /**
@@ -68,7 +72,39 @@ class LogoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $logos = Logo::find(1);
+
+        $this->validate($request,array(
+           'icon' => 'nullable',
+           'logo' => 'nullable',
+        ));
+
+        if ($request->hasFile('logo')) {
+
+            if(file_exists('images/logo/'.$logos->logo)){
+                unlink('images/logo/'.$logos->logo);
+            }
+            $image = $request->file('logo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = 'images/logo/'. $filename;
+            Image::make($image)->save($location);
+            $logos->logo =  $filename;
+
+        } elseif ($request->hasFile('icon')) {
+
+            if(file_exists('images/logo/'.$logos->icon)){
+                unlink('images/logo/'.$logos->icon);
+            }
+
+            $image = $request->file('icon');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = 'images/logo/'. $filename;
+            Image::make($image)->save($location);
+            $logos->icon =  $filename;
+        }
+        $logos->save();
+        Session::flash('message', 'Logo Updated');
+        return back();
     }
 
     /**

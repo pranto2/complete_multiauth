@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Social;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class SocialController extends Controller
 {
@@ -13,7 +15,8 @@ class SocialController extends Controller
      */
     public function index()
     {
-        return view('admin.web.social');
+        $social = Social::all();
+        return view('admin.web.social', compact('social'));
     }
 
     /**
@@ -34,7 +37,18 @@ class SocialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, array(
+            'icon' => 'required|max:255',
+            'title' => 'required|max:255',
+            'link' => 'required|max:255',
+        ));
+        $soc = new Social;
+        $soc->icon = $request->icon;
+        $soc->title = $request->title;
+        $soc->link = $request->link;
+        $soc->save();
+        Session::flash('message', 'Successfully Added');
+        return redirect('admin/social');
     }
 
     /**
@@ -68,7 +82,19 @@ class SocialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $soc = Social::find($id);
+        $this->validate($request, array(
+            'icon' => 'required|max:255',
+            'title' => 'required|max:255',
+            'link' => 'required|max:255',
+        ));
+
+        $soc->icon = $request->input('icon');
+        $soc->title = $request->input('title');
+        $soc->link = $request->input('link');
+        $soc->save();
+        Session::flash('message', 'Successfully Update');
+        return redirect('admin/social');
     }
 
     /**
@@ -79,6 +105,9 @@ class SocialController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $soc = Social::find($id);
+        $soc->delete();
+        Session::flash('message', 'Successfully Deleted');
+        return redirect('admin/social');
     }
 }

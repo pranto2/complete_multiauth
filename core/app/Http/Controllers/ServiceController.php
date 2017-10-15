@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Service;
+use App\Tservice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ServiceController extends Controller
 {
@@ -13,7 +16,9 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return view('admin.web.service');
+        $tservice = Tservice::all();
+        $ser = Service::find(1);
+        return view('admin.web.service',compact('ser', 'tservice'));
     }
 
     /**
@@ -34,7 +39,18 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, array(
+            'icon' => 'required|max:255',
+            'title' => 'required|max:255',
+            'link' => 'max:255',
+        ));
+        $soc = new Tservice;
+        $soc->icon = $request->icon;
+        $soc->title = $request->title;
+        $soc->link = $request->link;
+        $soc->save();
+        Session::flash('message', 'Successfully Added');
+        return redirect('admin/service');
     }
 
     /**
@@ -68,7 +84,34 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $ser = Service::find($id);
+        $this->validate($request, array(
+            'title' => 'required|max:255',
+            'detail' => 'required',
+        ));
+        $ser->title = $request->input('title');
+        $ser->detail = $request->input('detail');
+        $ser->save();
+        Session::flash('message', 'Successfully Update');
+        return redirect('admin/service');
+    }
+
+    public function iconService(Request $request, $id)
+    {
+        $soc = Tservice::find($id);
+        $this->validate($request, array(
+            'icon' => 'required|max:255',
+            'title' => 'required|max:255',
+            'link' => 'max:255',
+        ));
+
+        $soc->icon = $request->input('icon');
+        $soc->title = $request->input('title');
+        $soc->link = $request->input('link');
+        $soc->save();
+        Session::flash('message', 'Successfully Update');
+        return redirect('admin/service');
+
     }
 
     /**

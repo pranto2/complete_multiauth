@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Statistics;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class StatisticsController extends Controller
 {
@@ -13,7 +15,8 @@ class StatisticsController extends Controller
      */
     public function index()
     {
-        return view('admin.web.statistics');
+        $stas = Statistics::all();
+        return view('admin.web.statistics', compact('stas'));
     }
 
     /**
@@ -68,7 +71,19 @@ class StatisticsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $stas = Statistics::find($id);
+        $this->validate($request, array(
+            'icon'    => 'max:255|required',
+            'b_text'   => 'max:255|required',
+            's_text' => 'max:255|required',
+        ));
+
+        $stas->icon = $request->input('icon');
+        $stas->b_text = $request->input('b_text');
+        $stas->s_text = $request->input('s_text');
+        $stas->save();
+        Session::flash('message', 'Successfully Updated');
+        return redirect('admin/statistics');
     }
 
     /**

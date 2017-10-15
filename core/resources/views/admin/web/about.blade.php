@@ -12,25 +12,30 @@
                             <span class="caption-subject font-red sbold uppercase">About Us Field</span>
                         </div>
                     </div>
+                    @if (Session::has('message'))
+                        <div class="alert alert-success">{{ Session::get('message') }}</div>
+                    @endif
                     <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="#" id="form_sample_1" class="form-horizontal">
+                        <form action="{{route('about.update', $about->id)}}" id="form_sample_1" class="form-horizontal" method="post">
+                            {{csrf_field()}}
+                            {{method_field('put')}}
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Title
+                                    <label class="col-md-12">Title
                                         <span class="required"> * </span>
                                     </label>
-                                    <div class="col-md-8">
-                                        <input type="text" name="name" data-required="1" class="form-control" /> </div>
+                                    <div class="col-md-12">
+                                        <input type="text" name="title" value="{{$about->title}}" data-required="1" class="form-control" /> </div>
                                 </div>
                             </div>
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Description
+                                    <label class="col-md-12">Description
                                         <span class="required"> * </span>
                                     </label>
-                                    <div class="col-md-8">
-                                        <textarea type="text" name="name" class="form-control"></textarea>
+                                    <div class="col-md-12">
+                                        <textarea type="text" name="description" class="form-control">{{$about->description}}</textarea>
                                     </div>
                                 </div>
                             </div>

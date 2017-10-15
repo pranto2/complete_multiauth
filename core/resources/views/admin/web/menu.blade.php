@@ -25,9 +25,21 @@
         <div class="alert alert-success">{{ Session::get('message') }}</div>
     @endif
     <div class="form-group">
+<div class="row">
+    <div class="col-md-9">
         <input type="text" class="form-control" id="menu" name="name" placeholder="Menu" required>
     </div>
-    <button name="submit" class="btn btn-primary pull-right">Post</button>
+    <div class="col-md-3">
+        <button name="submit" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i> ADD NEW</button>
+    </div>
+
+</div>
+
+
+
+
+    </div>
 </form>
 
 {{--table--}}

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\About;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AboutController extends Controller
 {
@@ -13,7 +15,8 @@ class AboutController extends Controller
      */
     public function index()
     {
-        return view('admin.web.about');
+        $about = About::find(1);
+        return view('admin.web.about', compact('about'));
     }
 
     /**
@@ -68,7 +71,17 @@ class AboutController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $about = About::find(1);
+        $this->validate($request, array(
+            'title' => 'required|max:255',
+            'description' => 'required',
+        ));
+
+        $about->title = $request->input('title');
+        $about->description = $request->input('description');
+        $about->save();
+        Session::flash('message', 'Successfully Updated');
+        return back();
     }
 
     /**

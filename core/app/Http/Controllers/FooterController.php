@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Footer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class FooterController extends Controller
 {
@@ -13,7 +15,8 @@ class FooterController extends Controller
      */
     public function index()
     {
-       return view('admin.web.footer');
+        $footer = Footer::find(1);
+       return view('admin.web.footer', compact('footer'));
     }
 
     /**
@@ -68,7 +71,18 @@ class FooterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $footer = Footer::find(1);
+        $this->validate($request, array(
+            'title' => 'required|max:255',
+            'detail' => 'required',
+        ));
+
+        $footer->title = $request->input('title');
+        $footer->detail = $request->input('detail');
+        $footer->save();
+        Session::flash('message', 'Successfully Updated');
+        return back();
+
     }
 
     /**
